@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block page-header %}
+<h3 class="blog-post-title"><strong>{{ header }}</strong></h3>
+{% endblock %}
+
+{% block page-content %}
+    <form method="post" action="/cmdb/serverdetail/{{ ass_obj }}/">{% csrf_token %}
+    {% for foo in form %}
+        <div class="form-group">
+            {{ foo.label }} : {{ foo }}
+        </div>
+    {% endfor %}
+    <p><button type="submit" class="btn btn-primary">提交</button></p>
+    </form>
+{% endblock %}

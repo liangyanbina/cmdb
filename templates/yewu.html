@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block page-header %}
+    <h3 class="blog-post-title"><strong>业务线</strong></h3>
+
+{% endblock %}
+
+{% block page-content %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>业务名称</th>
+                <th class="text-center">资产数量</th>
+                <th>备注</th>
+            </tr>
+            </thead>
+        <tbody>
+            {% for foo in yewu_list %}
+                <tr>
+                    <td><a href="{{ foo.name }}">{{ foo.name }}</a></td>
+                    <td class="text-center">{{ foo.asset_count }}</td>
+                    <td>{{ foo.memo }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+{% endblock %}

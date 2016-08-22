@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block page-header %}
+    <h3 class="blog-post-title"><strong>{{ header }}</strong></h3>
+    <form method="post" action="/">{% csrf_token %}
+        <td width="8%" align="right">&nbsp&nbsp资产IP地址:
+	    </td>
+         <td>
+	    	<input class="input-xlarge" style="width:163px;height: 30px;" maxlength="25" placeholder="IP地址" value="" id="equip_sn" name="asset_ip" type="text"> &nbsp; &nbsp;
+	    </td>
+
+    	<td width="8%" align="right">
+               			业务线：
+        </td>
+        <td>
+        <select name="BusinessUnit" style="width:100px;height: 30px;">
+		               		<option value="-1">--请选择--</option>
+                            {% for foo in BusinessUnit %}
+		               		<option value={{ foo.name }} >{{ foo }}</option>
+		               		{% endfor %}
+	               		</select>
+        </td>
+
+        <td width="20%" align="right">
+                    &nbsp&nbsp机房：
+        </td>
+        <td>
+            <select name="idc" style="width:150px">
+        	<option value="">请选择</option>
+                {% for foo in idc %}
+        		<option value={{ foo.name }} >{{ foo.name }}</option>
+                {% endfor %}
+            </select>
+        </td>
+         <td width="20%" align="right">
+                    &nbsp&nbsp状态：
+        </td>
+        <td>
+            <select name="status" style="width:150px">
+        	<option value="">请选择</option>
+        		<option value=0 >正常</option>
+                <option value=1 >维护中</option>
+                <option value=2 >停用</option>
+                <option value=3 >报废</option>
+                <option value=4 >未知</option>
+
+            </select>
+        </td>
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button type="submit" class="btn btn-primary">搜索</button>
+    </form>
+
+{% endblock %}
+
+{% block page-content %}
+    <div class="table-responsive">
+        <table class="table table-striped table-condensed">
+            <thead>
+            <tr>
+                <th class="text-center">服务器IP</th>
+                <th>服务器名称</th>
+                <th>设备类型</th>
+                <th>sn</th>
+                <th>业务线</th>
+                <th>制造厂</th>
+                <th>机房</th>
+                <th>状态</th>
+                <th>过保日期</th>
+            </tr>
+            </thead>
+        <tbody>
+            {% for foo in asset %}
+                <tr>
+                    <td class="text-center"><a href="/cmdb/assetdetail/{{ foo.ip }}/">{{ foo.ip }}</a></td>
+                    <td>{{ foo.name }}</td>
+                    <td>{{ foo.get_asset_type_display }}</td>
+                    <td>{{ foo.sn |truncatechars:10}}</td>
+                    <td>{{ foo.business_unit }}</td>
+                    <td>{{ foo.manufactory }}</td>
+                    <td>{{ foo.idc }}</td>
+                    <td class="{{ foo.status }}">{{ foo.get_status_display }}</td>
+                    <td>{{ foo.expire_date }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+    </div>
+    {% if counts %}
+
+     <h4 class="text-left" >共{{ counts }}台</h4>
+    {% endif %}
+
+{% endblock %}

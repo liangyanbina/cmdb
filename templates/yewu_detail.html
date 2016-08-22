@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block page-header %}
+{{ name }}
+{% endblock %}
+
+{% block page-content %}
+  <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>IP</th>
+                <th>name</th>
+                <th>sn</th>
+                <th>status</th>
+                <th>过保日期</th>
+            </tr>
+            </thead>
+        <tbody>
+            {% for foo in asset %}
+                <tr>
+                    <td>{{ foo.ip }}</td>
+                    <td>{{ foo.name }}</td>
+                    <td>{{ foo.sn |truncatechars:10}}</td>
+                    <td class="{{ foo.status }}">{{ foo.get_status_display }}</td>
+                    <td>{{ foo.expire_date }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+{% endblock %}
